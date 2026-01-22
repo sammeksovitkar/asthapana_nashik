@@ -15,7 +15,9 @@ const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
 const auth = new JWT({
   email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  // Added a check: if key is missing, use empty string instead of crashing
+  key: (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID, auth);
